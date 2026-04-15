@@ -4,52 +4,45 @@ public class TrainManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Binary Search: Find Bogie ID ===");
+        System.out.println("=== Safe Search Operation ===");
 
-        // Unsorted bogie IDs
-        String[] bogieIds = {"BG309", "BG101", "BG550", "BG205", "BG412"};
+        // Example 1: Empty array (will throw exception)
+        String[] bogieIds = {};
 
-        // Step 1: Sort the array (MANDATORY)
-        Arrays.sort(bogieIds);
+        String searchKey = "BG101";
 
-        System.out.println("Sorted Bogie IDs: " + Arrays.toString(bogieIds));
+        try {
+            boolean found = searchBogie(bogieIds, searchKey);
 
-        // Search key
-        String searchKey = "BG309";
+            if (found) {
+                System.out.println("Bogie Found");
+            } else {
+                System.out.println("Bogie Not Found");
+            }
 
-        int result = binarySearch(bogieIds, searchKey);
-
-        if (result != -1) {
-            System.out.println("Bogie Found at index: " + result);
-        } else {
-            System.out.println("Bogie not found.");
+        } catch (IllegalStateException e) {
+            System.out.println("Error: " + e.getMessage());
         }
+
+        System.out.println("\nProgram continues safely...");
     }
 
-    // Binary Search Method
-    public static int binarySearch(String[] arr, String key) {
+    // Search method with validation
+    public static boolean searchBogie(String[] bogieIds, String key) {
 
-        int low = 0;
-        int high = arr.length - 1;
+        // ✅ Fail-fast validation
+        if (bogieIds == null || bogieIds.length == 0) {
+            throw new IllegalStateException("No bogies available for search");
+        }
 
-        while (low <= high) {
-
-            int mid = (low + high) / 2;
-
-            int comparison = key.compareTo(arr[mid]);
-
-            if (comparison == 0) {
-                return mid; // found
-            }
-            else if (comparison > 0) {
-                low = mid + 1; // search right
-            }
-            else {
-                high = mid - 1; // search left
+        // Linear Search (can replace with Binary if sorted)
+        for (String id : bogieIds) {
+            if (id.equals(key)) {
+                return true;
             }
         }
 
-        return -1; // not found
+        return false;
     }
 }
 
