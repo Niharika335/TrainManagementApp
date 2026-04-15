@@ -1,19 +1,17 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-// Bogie Class (Custom Object)
+// Bogie Class
 class Bogie {
     String name;
     int capacity;
 
-    // Constructor
     Bogie(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
     }
 
-    // toString() for clean printing
     @Override
     public String toString() {
         return name + " (Capacity: " + capacity + ")";
@@ -24,30 +22,30 @@ public class TrainManagementApp {
 
     public static void main(String[] args) {
 
-        // Welcome Message
         System.out.println("=== Train Consist Management App ===");
 
-        // Create List of Bogies
+        // Original List (same as UC7)
         List<Bogie> bogies = new ArrayList<>();
-
-        // Add bogies
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 56));
         bogies.add(new Bogie("First Class", 24));
+        bogies.add(new Bogie("Luxury", 80));
 
-        // Display before sorting
-        System.out.println("\nBefore Sorting:");
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
+        // Display original list
+        System.out.println("\nAll Bogies:");
+        bogies.forEach(System.out::println);
 
-        // Sort by capacity (ascending)
-        bogies.sort(Comparator.comparingInt(b -> b.capacity));
+        // Stream Filtering (capacity > 60)
+        List<Bogie> filteredBogies = bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
 
-        // Display after sorting
-        System.out.println("\nAfter Sorting by Capacity:");
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
+        // Display filtered list
+        System.out.println("\nHigh Capacity Bogies (capacity > 60):");
+        filteredBogies.forEach(System.out::println);
+
+        // Verify original list unchanged
+        System.out.println("\nOriginal List After Filtering (unchanged):");
+        bogies.forEach(System.out::println);
     }
 }
