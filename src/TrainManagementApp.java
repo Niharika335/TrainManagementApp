@@ -1,66 +1,43 @@
-// Custom Runtime Exception
-class CargoSafetyException extends RuntimeException {
-    public CargoSafetyException(String message) {
-        super(message);
-    }
-}
-
-// GoodsBogie Class
-class GoodsBogie {
-    String shape;
-    String cargo;
-
-    GoodsBogie(String shape) {
-        this.shape = shape;
-    }
-
-    // Method to assign cargo safely
-    public void assignCargo(String cargo) {
-        try {
-            // Safety rule: Rectangular cannot carry Petroleum
-            if (shape.equals("Rectangular") && cargo.equals("Petroleum")) {
-                throw new CargoSafetyException("Unsafe: Rectangular bogie cannot carry Petroleum");
-            }
-
-            // If safe, assign cargo
-            this.cargo = cargo;
-            System.out.println("Cargo assigned successfully: " + cargo);
-
-        } catch (CargoSafetyException e) {
-            System.out.println("Error: " + e.getMessage());
-
-        } finally {
-            System.out.println("Cargo assignment attempt completed.\n");
-        }
-    }
-
-    @Override
-    public String toString() {
-        return shape + " Bogie carrying " + (cargo != null ? cargo : "No Cargo");
-    }
-}
-
 public class TrainManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Safe Cargo Assignment ===");
+        System.out.println("=== Bubble Sort: Passenger Bogie Capacities ===");
 
-        // Create bogies
-        GoodsBogie b1 = new GoodsBogie("Cylindrical");
-        GoodsBogie b2 = new GoodsBogie("Rectangular");
+        // Array of capacities
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        // ✅ Safe assignment
-        b1.assignCargo("Petroleum");
+        // Display original array
+        System.out.println("\nBefore Sorting:");
+        printArray(capacities);
 
-        // ❌ Unsafe assignment (handled)
-        b2.assignCargo("Petroleum");
+        // Bubble Sort
+        int n = capacities.length;
 
-        // Program continues
-        System.out.println("Final Bogie States:");
-        System.out.println(b1);
-        System.out.println(b2);
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
 
-        System.out.println("\nProgram continues safely...");
+                // Compare adjacent elements
+                if (capacities[j] > capacities[j + 1]) {
+
+                    // Swap
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
+            }
+        }
+
+        // Display sorted array
+        System.out.println("\nAfter Sorting:");
+        printArray(capacities);
+    }
+
+    // Helper method to print array
+    public static void printArray(int[] arr) {
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
     }
 }
